@@ -1,54 +1,53 @@
 Config { font = "-*-Fixed-Bold-R-Normal-*-13-*-*-*-*-*-*-*"
        , additionalFonts = [ "xft:FontAwesome:pixelsize=13" ]
-       , bgColor = "black"
-       , fgColor = "grey"
+       , bgColor = "#220022"
+       , fgColor = "#00b000"
        , position = TopW L 100
        , commands =[
-             Run Cpu ["-L","3","-H","50","--normal","green","--high","red"] 10
-             , Run Memory ["-t","Mem: <usedratio>%"] 10
-             , Run Swap [] 10
-             , Run Date "%a %b %_d %l:%M" "date" 10
-             , Run StdinReader
+           Run Cpu ["-L","3","-H","50","--normal","green","--high","red"] 10
+           , Run Memory ["-t","Mem: <usedratio>%"] 10
+           , Run Swap [] 10
+           , Run Date "%a %b %_d %l:%M" "date" 10
+           , Run StdinReader
 
+           -- battery monitor
+           , Run Battery [ "--template" , "Batt: <acstatus>"
+              	         , "--Low"      , "10"        -- units: %
+                         , "--High"     , "80"        -- units: %
+                         , "--low"      , "darkred"
+                         , "--normal"   , "darkorange"
+                         , "--high"     , "darkgreen"
 
-
-             -- battery monitor
-             , Run Battery        [ "--template" , "Batt: <acstatus>"
-              	                  , "--Low"      , "10"        -- units: %
-                     		  , "--High"     , "80"        -- units: %
-                 	          , "--low"      , "darkred"
-                             	  , "--normal"   , "darkorange"
-                             	  , "--high"     , "darkgreen"
-
-                             	  , "--" -- battery specific options
-                                    -- discharging status
-                                  , "-o"	, "<left>% (<timeleft>)"
-                                                  -- AC "on" status
-                                  , "-O"	, "<fc=#dAA520>Charging</fc>"
-                                                  -- charged status
-                                  , "-i"	, "<fc=#006000>Charged</fc>"
-                             	  ] 50
-             -- cpu activity monitor
-             , Run MultiCpu       [ "--template" , "Cpu: <total0>% * <total1>% * <total2>% * <total3>% && <total4>% * <total5>% * <total6>% * <total7>%"
-                                  , "--Low"      , "50"         -- units: %
-                                  , "--High"     , "85"         -- units: %
-                                  , "--low"      , "darkgreen" 
-                                  , "--normal"   , "darkorange"
-                                  , "--high"     , "darkred"
-                                  ] 10
-	    -- network activity monitor (dynamic interface resolution)
-	    , Run DynNetwork     [ "--template" , "<dev>: <tx>kB/s|<rx>kB/s"
-				  , "--Low"      , "1000"       -- units: B/s
-				  , "--High"     , "5000"       -- units: B/s
-				  , "--low"      , "darkgreen"
-				  , "--normal"   , "darkorange"
-				  , "--high"     , "darkred"
-				  ] 10
+                         , "--" -- battery specific options
+                         -- discharging status
+                         , "-o"	, "<left>% (<timeleft>)"
+                         -- AC "on" status
+                         , "-O"	, "<fc=#dAA520>Charging</fc>"
+                         -- charged status
+                         , "-i"	, "<fc=#006000>Charged</fc>"
+                         ] 50
+           -- cpu activity monitor
+           , Run MultiCpu       [ "--template" , "Cpu: <total0>% * <total1>% * <total2>% * <total3>% && <total4>% * <total5>% * <total6>% * <total7>%"
+                         , "--Low"      , "50"         -- units: %
+                         , "--High"     , "85"         -- units: %
+                         , "--low"      , "darkgreen" 
+                         , "--normal"   , "darkorange"
+                         , "--high"     , "darkred"
+                         ] 10
+           -- network activity monitor (dynamic interface resolution)
+           , Run DynNetwork     [ "--template" , "<dev>: <tx>kB/s|<rx>kB/s"
+	                        , "--Low"      , "1000"       -- units: B/s
+                                , "--High"     , "5000"       -- units: B/s
+                                , "--low"      , "darkgreen"
+                                , "--normal"   , "darkorange"
+                                , "--high"     , "darkred"
+                                ] 10
+	   , Run Com "getVol.sh" [] "vol" 60
 				  
 	]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = "%StdinReader% }{   %dynnetwork%h @        %multicpu% | %cpu%         %memory% * %swap%         <fc=#ee9a00>%date%</fc>  ||  %battery%"
+       , template = "%StdinReader%}{vol: %vol%        %dynnetwork%h @        %multicpu% | %cpu%         %memory% * %swap%         <fc=#ee9a00>%date%</fc>  ||  %battery%"
        }
        , allDesktops = True
        , persistent = True
