@@ -27,7 +27,7 @@ Config { font = "-*-Fixed-Bold-R-Normal-*-13-*-*-*-*-*-*-*"
                          , "-i"	, "<fc=#006000>Charged</fc>"
                          ] 50
            -- cpu activity monitor
-           , Run MultiCpu       [ "--template" , "Cpu: <total0>% * <total1>% * <total2>% * <total3>% && <total4>% * <total5>% * <total6>% * <total7>%"
+           , Run MultiCpu       [ "--template" , "Cpu: <total0>% * <total1>% * <total2>% * <total3>%"
                          , "--Low"      , "50"         -- units: %
                          , "--High"     , "85"         -- units: %
                          , "--low"      , "darkgreen" 
@@ -42,7 +42,7 @@ Config { font = "-*-Fixed-Bold-R-Normal-*-13-*-*-*-*-*-*-*"
                                 , "--normal"   , "darkorange"
                                 , "--high"     , "darkred"
                                 ] 10
-	   , Run Com "getVol.sh" [] "vol" 60
+	   , Run Com "getvol.sh" [] "vol" 5
 				  
 	]
        , sepChar = "%"
